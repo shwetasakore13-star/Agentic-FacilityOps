@@ -1,0 +1,7 @@
+ENERGY AGENT REPORT
+Total Power: 2320225.29 kW
+Total HVAC: 1327578.47 kW
+Total Lighting: 1236405.11 kW
+Total Solar: 1026148.15 kW
+Efficiency Score: 44.23%
+Anomalies Detected: 26904

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head> <meta charset="UTF-8">
+<title>Energy Intelligence Dashboard</title>
+<style>
+  body { font-family: Arial, sans-serif; background: #0f172a; color: white; padding: 40px; }
+  h1 { color: #38bdf8; }
+  .cards { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 30px; }
+  .card { background: #1e293b; padding: 25px; border-radius: 12px; width: 220px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+  .card h3 { margin: 0; font-size: 14px; color: #94a3b8; }
+  .card p { margin: 10px 0 0 0; font-size: 24px; font-weight: bold; color: #38bdf8; }
+  .anomaly { color: #f87171 !important; }
+  ul { background: #1e293b; padding: 20px 40px; border-radius: 12px; margin-top: 30px; }
+  li { margin-bottom: 10px; color: #e2e8f0; }
+</style>
+</head>
+<body>
+
+<h1>⚡ Energy Intelligence Dashboard</h1>
+<p>Milestone 1 — Agentic FacilityOps AI Platform</p>
+
+<div class="cards" id="cards">Loading data...</div>
+
+<h2 style="color:#38bdf8; margin-top:40px;">💡 Recommendations</h2>
+<ul id="recommendations">Loading recommendations...</ul>
+
+<script>
+fetch("energy_report.txt")
+  .then(res => res.text())
+  .then(text => {
+    const lines = text.split("\n");
+    const data = {};
+    lines.forEach(line => {
+      const [key, value] = line.split(":");
+      if (key && value) data[key.trim()] = value.trim();
+    });
+
+    document.getElementById("cards").innerHTML = `
+      <div class="card"><h3>TOTAL POWER</h3><p>${data["Total Power"] || "N/A"}</p></div>
+      <div class="card"><h3>HVAC USAGE</h3><p>${data["Total HVAC"] || "N/A"}</p></div>
+      <div class="card"><h3>LIGHTING USAGE</h3><p>${data["Total Lighting"] || "N/A"}</p></div>
+      <div class="card"><h3>SOLAR GENERATED</h3><p>${data["Total Solar"] || "N/A"}</p></div>
+      <div class="card"><h3>EFFICIENCY SCORE</h3><p>${data["Efficiency Score"] || "N/A"}</p></div>
+      <div class="card"><h3>ANOMALIES</h3><p class="anomaly">${data["Anomalies Detected"] || "N/A"}</p></div>
+    `;
+  });
+
+fetch("recommendations.txt")
+  .then(res => res.text())
+  .then(text => {
+    const lines = text.split("\n").filter(l => l.trim() !== "");
+    document.getElementById("recommendations").innerHTML =
+      lines.map(l => `<li>${l}</li>`).join("");
+  });
+</script>
+
+</body>
+</html>
